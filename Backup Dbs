@@ -1,0 +1,35 @@
+#!/bin/bash
+#Replace the <> stuff with your own content
+
+export ORACLE_SID= <Instance Name>
+export ORACLE_HOME= <DbHome Installation>
+export PATH=$PATH:$ORACLE_HOME/bin
+export currentDate=`date +%d%m%y_%H%M%S`
+export systemLogin = "system/<Password>"
+
+if echo "exit;" | sqlplus system/<Password>@<DbName> 2>&1 | grep -q "Connected to"
+then
+
+sqlplus sys/<Password> as sysdba <<eof
+create or replace directory DBPUMP as '<Location of Backup>';
+grant read, write on directory DBPUMP to public;
+exit;
+eof
+
+# Start the expdp command
+cd <Location of directory for backup>
+
+if [ -e Log_<DbName>_*]
+ then
+	rm Log_<DbName>_*.log
+fi
+
+expdp ${systemLogin}@<DbName> directory=DBPUMP dumpfile=<DbName>_$currentDate.dmp full=y logfile=Log_<DbName>_$currentDate.log
+
+rm *${ORACLE_SID}_*.gz
+gzip -9 <DbName>_$currentDate.dmp
+
+else
+    echo "Connection FAIL"
+fi
+
