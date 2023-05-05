@@ -1,8 +1,8 @@
 #!/bin/bash
 #Replace the <> stuff with your own content
 
-export ORACLE_SID= <Instance Name>
-export ORACLE_HOME= <DbHome Installation>
+export ORACLE_SID=<Instance Name>
+export ORACLE_HOME=<DbHome Installation>
 export PATH=$PATH:$ORACLE_HOME/bin
 export currentDate=`date +%d%m%y_%H%M%S`
 export systemLogin="system/<Password>"
