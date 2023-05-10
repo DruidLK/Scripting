@@ -1,6 +1,6 @@
 #!/bin/bash
 #Replace the <> stuff with your own content
-#the export is required for your envorironment in order to cron to detect it in the background
+#the export is required for your environment in order to cron to detect it in the background
 
 export ORACLE_SID=<Instance Name>
 export ORACLE_HOME=<DbHome Installation>
