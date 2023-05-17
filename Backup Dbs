@@ -1,6 +1,7 @@
 #!/bin/bash
 #Replace the <> stuff with your own content
 #the export is required for your environment in order to cron to detect it in the background
+#best practice is to create a user BackupDb and allow that to use the datapump
 
 export ORACLE_SID=<Instance Name>
 export ORACLE_HOME=<DbHome Installation>
