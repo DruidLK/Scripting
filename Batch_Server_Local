@@ -1,0 +1,17 @@
+# replace <> with your content
+
+# change to local folder
+lcd <Backup directory>
+
+# generate a session Url/code from winscp
+open sftp://<username>:<password>@<server IP>/ -hostkey="ssh-rsa 2048 <ssh-keygen>"
+
+# access your remote file location
+cd <location of your file on the server>
+
+# retrieve the file using the get method 
+get -neweronly *.gz
+close
+exit
+
+
