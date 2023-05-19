@@ -8,6 +8,7 @@ export ORACLE_HOME=<DbHome Installation>
 export PATH=$PATH:$ORACLE_HOME/bin
 export currentDate=`date +%d%m%y_%H%M%S`
 export systemLogin="system/<Password>"
+export dbName=<DbName>
 
 if echo "exit;" | sqlplus system/<Password>@<DbName> 2>&1 | grep -q "Connected to"
 then
