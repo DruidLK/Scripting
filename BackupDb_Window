@@ -1,0 +1,9 @@
+@echo off
+REM replace <> with your own content
+set passwd=<passwd>
+set dbName=<dbName>
+
+expdp system/%passwd%@%dbName% dumpfile=%dbName%.dmp tables=tables_names 
+logfile=%dbName%.log
+
+zip -9 -m %dbName%.zip %dbName%.dmp
