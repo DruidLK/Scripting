@@ -28,7 +28,7 @@ if [ -e Log_<DbName>_* ]
 	rm Log_<DbName>_*.log
 fi
 
-expdp ${systemLogin}@<DbName> directory=DBPUMP dumpfile=<DbName>_$currentDate.dmp full=y logfile=Log_<DbName>_$currentDate.log
+expdp ${systemLogin}@<DbName> directory=DBPUMP dumpfile=<DbName>_$currentDate.dmp full=y compression=all logfile=Log_<DbName>_$currentDate.log
 
 rm *${ORACLE_SID}_*.gz
 gzip -9 <DbName>_$currentDate.dmp
