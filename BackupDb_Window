@@ -1,4 +1,5 @@
 @echo off
+REM don t forget to setup the task scheduler in window for this to run daily no cron here
 REM replace <> with your own content
 set passwd=<passwd>
 set dbName=<dbName>
