@@ -7,14 +7,13 @@ export ORACLE_SID=<Instance Name>
 export ORACLE_HOME=<DbHome Installation>
 export PATH=$PATH:$ORACLE_HOME/bin
 export currentDate=`date +%d%m%y_%H%M%S`
-export systemLogin="system/<Password>"
+export systemLogin="<export_user>/<Password>"
 export dbName=<DbName>
-export userBackup=<export_user>
 
-if echo "exit;" | sqlplus <UserBackup>/<Password>@<DbName> 2>&1 | grep -q "Connected to"
+if echo "exit;" | sqlplus ${systemLogin}@<DbName> 2>&1 | grep -q "Connected to"
 then
 
-sqlplus <userBackup>/<Password> as sysdba <<eof
+sqlplus ${systemLogin} as sysdba <<eof
 #if cdb alter session set container=<dbName>;
 create or replace directory DBPUMP as '<Location of Backup>';
 grant read, write on directory DBPUMP to public;
