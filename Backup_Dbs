@@ -3,14 +3,15 @@
 # the export is required for your environment in order to cron to detect it in the background
 # best practice is to create a user BackupDb and allow that to use the datapump
 
-export ORACLE_SID=<Instance Name>
+export ORACLE_SID=<Instance_Name>
 export ORACLE_HOME=<DbHome Installation>
 export PATH=$PATH:$ORACLE_HOME/bin
 export currentDate=`date +%d%m%y_%H%M%S`
 export systemLogin="<export_user>/<Password>"
 export dbName=<DbName>
+export BACKUP_PATH=<Backup_Location>
 
-if echo "exit;" | sqlplus ${systemLogin}@<DbName> 2>&1 | grep -q "Connected to"
+if echo "exit;" | sqlplus ${systemLogin}@${dbName} 2>&1 | grep -q "Connected to"
 then
 
 sqlplus ${systemLogin} as sysdba <<eof
@@ -21,17 +22,16 @@ exit;
 eof
 
 # Start the expdp command
-cd <Location of directory for backup>
+cd $BACKUP_PATH
 
-if [ -e Log_<DbName>_* ]
- then
-	rm Log_<DbName>_*.log
+if [ -e Log_${dbName}_* ] then
+ rm Log_$dbName_*.log
 fi
 
-expdp ${systemLogin}@<DbName> directory=DBPUMP dumpfile=<DbName>_$currentDate.dmp full=y compression=all logfile=Log_<DbName>_$currentDate.log
+expdp ${systemLogin}@${dbName} directory=DBPUMP dumpfile=${dbName}_$currentDate.dmp full=y compression=all logfile=Log_${dbName}_$currentDate.log
 
 rm *${ORACLE_SID}_*.gz
-gzip -9 <DbName>_$currentDate.dmp
+gzip -9 ${dbName}_$currentDate.dmp
 
 else
     echo "Connection FAIL"
