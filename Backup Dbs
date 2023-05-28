@@ -14,7 +14,7 @@ if echo "exit;" | sqlplus ${systemLogin}@<DbName> 2>&1 | grep -q "Connected to"
 then
 
 sqlplus ${systemLogin} as sysdba <<eof
-#if cdb alter session set container=<dbName>;
+# if cdb alter session set container=<dbName>;
 create or replace directory DBPUMP as '<Location of Backup>';
 grant read, write on directory DBPUMP to public;
 exit;
