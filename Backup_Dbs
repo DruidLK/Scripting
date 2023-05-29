@@ -1,7 +1,7 @@
 #!/bin/ksh
 # Replace the <> stuff with your own content
 # the export is required for your environment in order to cron to detect it in the background
-# best practice is to create a user BackupDb and allow that to use the datapump
+# best practice is to create a user BackupDb , grant the necessary privilege and allow that to use the datapump
 
 export ORACLE_SID=<Instance_Name>
 export ORACLE_HOME=<DbHome Installation>
@@ -9,7 +9,6 @@ export PATH=$PATH:$ORACLE_HOME/bin
 export currentDate=`date +%d%m%y_%H%M%S`
 export systemLogin="<export_user>/<Password>"
 export dbName=<DbName>
-export BACKUP_PATH=<Backup_Location>
 
 if echo "exit;" | sqlplus ${systemLogin}@${dbName} 2>&1 | grep -q "Connected to"
 then
@@ -22,7 +21,7 @@ exit;
 eof
 
 # Start the expdp command
-cd $BACKUP_PATH
+cd <Backup_Location>
 
 if [ -e Log_${dbName}_* ] then
  rm Log_$dbName_*.log
