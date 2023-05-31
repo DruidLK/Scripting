@@ -1,0 +1,48 @@
+#!/bin/ksh
+# replace <> with your own content
+# container backup
+
+export ORACLE_SID=<Container_Instance>
+export ORACLE_HOME=<Oracle_Installation>
+export PATH=$PATH:$ORACLE_HOME/bin
+export currentDate=`date +%d%m%y_%H%M%S`
+export DUMP_DIR_NAME=DBPUMP
+export DAY_NAME=`date +%A`
+export DB_SRVN=<Server_Name>
+export DB_NAME=<Db_Name>
+export DB_BACKUP_PATH='<Backup_PATH>'
+export SYSTEM_PSWD=<password>
+export SYS_PSWD=<password>
+export dmpFile=${DB_SRVN}_${DB_NAME}_${currentDate}.dmp
+export logFile=Log_${DB_NAME}_${currentDate}.log
+ 
+if echo "exit;" | sqlplus system/${ORACLE_SID}@${DB_NAME> 2>&1 | grep -q "Connected to"
+then 
+
+sqlplus sys/${SYS_PSWD} as sysdba <<EOF
+-- backup control file
+alter database backup controlfile to trace as '${DB_BACKUP_PATH}/control_${DB_NAME}.txt' reuse;
+
+alter session set container=${DB_NAME};
+create or replace directory ${DUMP_DIR_NAME} as '${DB_BACKUP_PATH}';
+grant read, write on directory ${DUMP_DIR_NAME} to public;
+exit;
+EOF
+
+cd $DB_BACKUP_PATH
+
+rm *_${DB_NAME}_*.log
+
+expdp SYSTEM/${SYSTEM_PSWD}@${DB_NAME} directory=DBPUMP dumpfile=dmpFile \
+full=y compression=all compression_algorithm=medium parallel=4 logfile=$logFile<<eof
+eof
+
+if grep -q "successfully" $logFile; then
+  rm *_${DB_NAME}_*.gz
+  gzip -9 $dmpFile
+else
+  echo "Check logfile for ORA errors..."
+fi
+
+else echo connection FAIL
+fi
