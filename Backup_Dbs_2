@@ -34,8 +34,7 @@ cd $DB_BACKUP_PATH
 rm *_${DB_NAME}_*.log
 
 expdp SYSTEM/${SYSTEM_PSWD}@${DB_NAME} directory=DBPUMP dumpfile=dmpFile \
-full=y compression=all compression_algorithm=medium parallel=4 logfile=$logFile<<eof
-eof
+full=y compression=all compression_algorithm=medium parallel=4 logfile=$logFile
 
 if grep -q "successfully" $logFile; then
   rm *_${DB_NAME}_*.gz
