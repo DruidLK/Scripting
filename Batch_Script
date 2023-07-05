@@ -1,0 +1,31 @@
+# the text that is used to refer to the server Ip address
+# change to local folder
+lcd <location of local folder>
+
+# generate a session Url/code from winscp
+--sftp session
+
+# access your remote file location
+cd <location of the backup>
+
+# retrieve the file using the get method 
+get -neweronly *.gz
+close
+exit
+
+@echo off
+
+set logPath="<log location>"
+set scriptPath="<text that is related to the server ip address>"
+set winscpPath="C:\Program Files (x86)\WinSCP\WinSCP.com"
+
+REM Clean all previous log they are not needed
+del %logPath%\bck_*.log
+
+echo Starting the connection to the remote server
+
+start "" /wait /b %winscpPath% /ini=nul /script=%scriptPath%\<text_name>.txt /log=%logPath%\<text_name>.log
+
+exit /b
+
+
