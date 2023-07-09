@@ -1,5 +1,5 @@
 #!/bin/ksh
-# replace <> with your own content
+# replace <generic content> with your own content
 # container backup
 
 export ORACLE_SID=<Container_Instance>
