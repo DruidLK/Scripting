@@ -16,7 +16,7 @@ export SYS_PSWD=<password>
 export dmpFile=${DB_SRVN}_${DB_NAME}_${currentDate}.dmp
 export logFile=Log_${DB_NAME}_${currentDate}.log
  
-if echo "exit;" | sqlplus system/${ORACLE_SID}@${DB_NAME> 2>&1 | grep -q "Connected to"
+if echo "exit;" | sqlplus system/${ORACLE_SID}@${DB_NAME} 2>&1 | grep -q "Connected to"
 then 
 
 sqlplus sys/${SYS_PSWD} as sysdba <<EOF
